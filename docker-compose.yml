@@ -1,0 +1,39 @@
+version: '3.10'
+
+services:
+  rag-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./indexes:/app/indexes
+      - ./logs:/app/logs
+    environment:
+      - EMBEDDING_MODEL_NAME=sentence-transformers/all-MiniLM-L6-v2
+      - EMBEDDING_DEVICE=cpu
+      - DOCS_PATH=data/raw
+      - INDEX_PATH=indexes/faiss_index.bin
+      - METADATA_PATH=indexes/metadata.json
+      - LLM_API_URL=http://llm-service:8080/completion
+      - TOP_K=3
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
+    depends_on:
+      - llm-service
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  llm-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.llm
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./models:/models  # Optional: if you want to mount models
+

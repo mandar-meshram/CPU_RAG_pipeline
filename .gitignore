@@ -1,0 +1,13 @@
+# Large RAG/ML files
+data/
+indexes/
+models/
+*.gguf
+*.bin
+*.pkl
+*.h5
+
+# Python/Env
+__pycache__/
+.env
+venv/

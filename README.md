@@ -20,7 +20,7 @@ Supports dense retrieval with FAISS and quantized TinyLlama GGUF LLM server (lla
 
 ### 1. Clone and install requirements
 
-git clone https://github.com/yourusername/CPU_RAG_pipeline.git
+git clone https://github.com/mandar-meshram/CPU_RAG_pipeline.git
 cd CPU_RAG_pipeline
 python3 -m venv env
 source env/bin/activate
